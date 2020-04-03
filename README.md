@@ -1,5 +1,5 @@
 # Introduction
-* This program that classifies legal issues into a binary value for each National Subject Matter Index (NSMI). (https://nsmi.lsntap.org/browse-v2) 
+* This program classifies legal issues into a binary value for each National Subject Matter Index (NSMI). (https://nsmi.lsntap.org/browse-v2) 
 "Category" means 20 indexes. 
 "Class" means sub categories under the category.
 
