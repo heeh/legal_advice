@@ -1,3 +1,5 @@
+![Test Image 1](figs/monthly_1.png)
+
 # Introduction
 * This program classifies legal issues into a binary value for each National Subject Matter Index (NSMI). (https://nsmi.lsntap.org/browse-v2) 
 "Category" means 20 indexes. 
@@ -15,3 +17,4 @@
 * We calculate accuracy with bot categories(20) and classes(100+). 
 
 See overall result is at the bottom of this notebook.
+
