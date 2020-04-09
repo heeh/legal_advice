@@ -1,4 +1,8 @@
 #+latex_header: \mode<beamer>{\usetheme{Madrid}}
+#+latex_header: \definecolor{UMass}{RGB}{136, 28, 28} % UMass Maroon (primary)
+#+latex_header: \usecolortheme[named=UMass]{structure}
+
+
 #+TITLE:     Predicting Legal Needs
 #+AUTHOR:    Hee Hwang
 #+EMAIL:     hhwang@cs.umass.edu
