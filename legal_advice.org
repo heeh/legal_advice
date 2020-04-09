@@ -1,0 +1,79 @@
+#+latex_header: \mode<beamer>{\usetheme{Madrid}}
+#+TITLE:     Predicting Legal Needs
+#+AUTHOR:    Hee Hwang
+#+EMAIL:     hhwang@cs.umass.edu
+#+DATE:      2020-04-16 Thu
+#+DESCRIPTION: 
+#+KEYWORDS: 
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:t \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:https://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+
+#+startup: beamer
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [bigger]
+
+#+BEAMER_FRAME_LEVEL: 2
+
+#+COLUMNS: %40ITEM %10BEAMER_env(Env) %9BEAMER_envargs(Env Args) %4BEAMER_col(Col) %10BEAMER_extra(Extra)
+* Goal of this Project
+** A simple slide :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+   - the first, very @important@, point!
+   - the previous point shows the use of the special markup which
+     translates to the Beamer specific /alert/ command for highlighting
+     text.
+   
+
+   The above list could be numbered or any other type of list and may
+   include sub-lists.
+
+** A more complex slide :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+   This slide illustrates the use of Beamer blocks.  The following text,
+   with its own headline, is displayed in a block:
+
+
+*** Org mode increases productivity                               :B_theorem:
+    :PROPERTIES:
+    :BEAMER_env: theorem
+    :END:
+    - org mode means not having to remember LaTeX commands.
+    - it is based on ascii text which is inherently portable.
+    - Emacs!
+
+    \hfill \(\qed\)
+
+* Data
+** Reddit Legal Advice :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+* Classifier
+** TF-IDF                                                           :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+** GLoVe :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+* Prediction
+** Comparison :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+* Class Prevalence
+** Monthly Prevalence                                               :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
