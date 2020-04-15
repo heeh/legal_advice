@@ -2,9 +2,8 @@
 #+latex_header: \definecolor{UMass}{RGB}{136, 28, 28} % UMass Maroon (primary)
 #+latex_header: \usecolortheme[named=UMass]{structure}
 
-
 #+TITLE:     Predicting Legal Needs
-#+AUTHOR:    Hee Hwang
+#+AUTHOR:    Hee "Peter" Hwang
 #+EMAIL:     hhwang@cs.umass.edu
 #+DATE:      2020-04-16 Thu
 #+DESCRIPTION: 
@@ -17,67 +16,275 @@
 #+EXPORT_EXCLUDE_TAGS: noexport
 #+LINK_UP:   
 #+LINK_HOME: 
-
+#+PROPERTY: BEAMER_OPT fragile
 #+startup: beamer
 #+LaTeX_CLASS: beamer
 #+LaTeX_CLASS_OPTIONS: [bigger]
 
+
+#+LATEX_HEADER: \usepackage[backend=bibtex, style=numeric]{biblatex}
+#+LATEX_HEADER: \addbibresource{reference.bib}
+
+
 #+BEAMER_FRAME_LEVEL: 2
 
 #+COLUMNS: %40ITEM %10BEAMER_env(Env) %9BEAMER_envargs(Env Args) %4BEAMER_col(Col) %10BEAMER_extra(Extra)
-* Goal of this Project
-** A simple slide :B_frame:
+
+
+#+latex_header: \AtBeginSection[]{\begin{frame}<beamer>\frametitle{Topic}\tableofcontents[currentsection]\end{frame}}
+* Motivation
+** Opening Question                                                 :B_frame:
    :PROPERTIES:
    :BEAMER_env: frame
    :END:
-   - the first, very @important@, point!
-   - the previous point shows the use of the special markup which
-     translates to the Beamer specific /alert/ command for highlighting
-     text.
-   
+[[file:figs/pt.png]]
 
-   The above list could be numbered or any other type of list and may
-   include sub-lists.
 
-** A more complex slide :B_frame:
+** Questions I                                                      :B_frame:
    :PROPERTIES:
    :BEAMER_env: frame
    :END:
-   This slide illustrates the use of Beamer blocks.  The following text,
-   with its own headline, is displayed in a block:
+   - Is it a legal issue?
+   - What kind of legal issue is it?
+   - How to deal with it?
+** National Subject Matter Index(NSMI v2) :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+[[file:figs/nsmiv2.png]]
+
+** National Subject Matter Index(NSMI v2) :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+[[file:figs/subclass.png]]
 
 
-*** Org mode increases productivity                               :B_theorem:
-    :PROPERTIES:
-    :BEAMER_env: theorem
-    :END:
-    - org mode means not having to remember LaTeX commands.
-    - it is based on ascii text which is inherently portable.
-    - Emacs!
+** Annual Submissions(2010 - 2019)                                  :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+[[file:figs/annual_num_docs.png]]
 
-    \hfill \(\qed\)
+** Monthly Submissions(01/2019 - 03/2020)                           :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+#+attr_latex: :width 0.8\textwidth
+[[file:figs/monthly_num_docs.png]]
 
+
+** Questions II :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+   - Can Reddit data shed a light to legal trend?
+   - Are there seasonality effects?
+   - How does society react to pandemic?
+
+
+#+latex_header: \AtBeginSection[]{\begin{frame}<beamer>\frametitle{Topic}\tableofcontents[currentsection]\end{frame}}
 * Data
-** Reddit Legal Advice :B_frame:
+** Reddit Legal Advice            :B_frame:
    :PROPERTIES:
    :BEAMER_env: frame
    :END:
+   - [[http:reddit.com/r/legal_advice]]
+   - First submission: April 20, 2010
+   - 906,693 submissions(04/2010 - 03/2020)
+   - 21,490 / month (01/2019 - 03/2020)
+   - 5,005 / week (01/2020 - 03/2020)
+   - 740 / day (02/2020 - 03/2020)
+
+
+** Pushshift API                                                    :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+
+*** $github.com/heeh/subreddit\_downloader/sample.py$               :B_block:
+    :PROPERTIES:
+    :BEAMER_env: block
+
+    :END:
+#+begin_src python :results output :exports code
+  import requests
+
+  # Retrieve 1000 submissions with specified fields
+  url = "https://api.pushshift.io/reddit/search/       \
+	 submission/?subreddit=legaladvice&            \
+	 fields=id,created_utc,title,selftext&         \
+	 size=1000&after=2020-01-01&before=2020-01-31"
+  subs = requests.get(url)
+#+end_src
+
+
+** Learned Hands :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+#+attr_latex: :width 0.8\textwidth
+[[file:figs/learned_hands.png]]
+
+   
+#+latex_header: \AtBeginSection[]{\begin{frame}<beamer>\frametitle{Topic}\tableofcontents[currentsection]\end{frame}}
 * Classifier
-** TF-IDF                                                           :B_frame:
+** Model :B_frame:
    :PROPERTIES:
    :BEAMER_env: frame
    :END:
-** GLoVe :B_frame:
+   - Input representation: TF-IDF 
+   - Logistic regression with L1 regularization
+   - Grid search over powers of 2
+
+** Training Data :B_frame:
    :PROPERTIES:
    :BEAMER_env: frame
    :END:
-* Prediction
-** Comparison :B_frame:
+
+
+** Recall Top 10 :B_frame:
    :PROPERTIES:
    :BEAMER_env: frame
    :END:
-* Class Prevalence
+file:figs/top10.png
+** Recall Distribution :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+file:figs/top10.png
+# ** Comparison :B_frame:
+#    :PROPERTIES:
+#    :BEAMER_env: frame
+#    :END:
+#    +--------------+------+------+------+------+--------+--------+
+#    | Classifier   | Acc. | Prec.| Rec. |  F1  |log_loss| brier  |
+#    +--------------+------+------+------+------+--------+--------+
+#    | TF-IDF L1    | 0.97 | 0.52 | 0.41 | 0.46 | 0.0829 | 0.0186 |
+#    | TF-IDF L2    | 0.97 | 0.55 | 0.22 | 0.28 | 0.0759 | 0.0194 |
+#    | GloVe(50) L1 | 0.93 | 0.25 | 0.54 | 0.32 | 0.2049 | 0.0521 |
+#    | GloVe(50) L2 | 0.92 | 0.24 | 0.56 | 0.31 | 0.2081 | 0.0571 |
+#    | GloVe(300)L1 | 0.96 | 0.37 | 0.52 | 0.42 | 0.1086 | 0.0273 |
+#    | GloVe(300)L2 | 0.97 | 0.40 | 0.51 | 0.44 | 0.0968 | 0.0242 |
+#    +--------------+------+------+------+------+--------+--------+
+** Input :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+[[file:figs/pt.png]]
+** Output :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+   +--------------+--------------+
+   | Class        | Prediction(%)| 
+   +--------------+--------------+
+   |TR-00-00-00-00|0.9561        |
+   |CO-00-00-00-00|0.6452        |
+   |MO-00-00-00-00|0.3711        |
+   |BU-00-00-00-00|0.0486        |
+   |TO-00-00-00-00|0.0211        |
+   |FA-00-00-00-00|0.0131        |
+   |CR-00-00-00-00|0.0129        |
+   |TR-01-00-00-00|0.0087        |
+   |HO-06-00-00-00|0.0061        |
+   |ED-00-00-00-00|0.0043        |
+   +--------------+--------------+
+
+#+header: \AtBeginSection[]{\begin{frame}<beamer>\frametitle{Topic}\tableofcontents[currentsection]\end{frame}}
+* Prevalence Estimation
+** Freq-e :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+file:figs/freq_e.jpeg
+(Katherine and O'Connor, 2018)
+
+
 ** Monthly Prevalence                                               :B_frame:
    :PROPERTIES:
    :BEAMER_env: frame
    :END:
+[[file:figs/monthly_1.png]]
+- WO-00: Work and Employment Law
+- HO-00: Housing
+- HO-06: Renting or leasing a home
+- HE-00: Health
+
+** Weekly Prevalence                                                :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+[[file:figs/weekly_1.png]]
+- WO-00: Work and Employment Law
+- HO-00: Housing
+- HO-06: Renting or leasing a home
+- HE-00: Health
+
+** Daily Prevalence                                                 :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+[[file:figs/daily_1.png]]
+- WO-00: Work and Employment Law
+- HO-00: Housing
+- HO-06: Renting or leasing a home
+- HE-00: Health
+
+
+** Monthly Prevalence                                               :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+[[file:figs/monthly_2.png]]
+- TO-00: Accidents and Torts 
+- CR-00: Crime and Prisons
+- FA-00: Family
+- CO-00: Courts and Lawyers
+
+** Weekly Prevalence :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+[[file:figs/weekly_2.png]]
+- TO-00: Accidents and Torts 
+- CR-00: Crime and Prisons
+- FA-00: Family
+- CO-00: Courts and Lawyers
+
+** Daily Prevalence                                                 :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+[[file:figs/daily_2.png]]
+- TO-00: Accidents and Torts 
+- CR-00: Crime and Prisons
+- FA-00: Family
+- CO-00: Courts and Lawyers
+
+** Summary :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+- Provide people better insight regarding their issues by classification
+- Shows seasonality
+- How natural disaster affects legal needs
+
+** Todo :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+- More labeled data(Currently 16 classes available)
+- Dataset from other communities
+- California statewide legal help portal
+  (https://lawhelpca.org/)
+- System to automate and improve the model
+
+
+
+
+** Reference :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+- Keith, K., & O'Connor, B. (2018). Uncertainty-aware generative models for inferring document class prevalence. In Proceedings of EMNLP.
