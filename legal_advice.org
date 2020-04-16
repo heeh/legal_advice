@@ -1,4 +1,4 @@
-#+latex_header: \mode<beamer>{\usetheme{Madrid}}
+#+latex_header: \mode<beamer>{\usetheme{default} \usefonttheme{serif}}
 #+latex_header: \definecolor{UMass}{RGB}{136, 28, 28} % UMass Maroon (primary)
 #+latex_header: \usecolortheme[named=UMass]{structure}
 
@@ -32,6 +32,8 @@
 
 
 #+latex_header: \AtBeginSection[]{\begin{frame}<beamer>\frametitle{Topic}\tableofcontents[currentsection]\end{frame}}
+
+
 * Motivation
 ** Opening Question                                                 :B_frame:
    :PROPERTIES:
@@ -51,13 +53,15 @@
    :PROPERTIES:
    :BEAMER_env: frame
    :END:
-[[file:figs/nsmiv2.png]]
+
+#+LaTeX:\includegraphics[width = \textwidth]{figs/nsmiv2.png}
+
 
 ** National Subject Matter Index(NSMI v2) :B_frame:
    :PROPERTIES:
    :BEAMER_env: frame
    :END:
-[[file:figs/subclass.png]]
+file:figs/subclass.png
 
 
 ** Annual Submissions(2010 - 2019)                                  :B_frame:
@@ -85,7 +89,22 @@
 
 #+latex_header: \AtBeginSection[]{\begin{frame}<beamer>\frametitle{Topic}\tableofcontents[currentsection]\end{frame}}
 * Data
-** Reddit Legal Advice            :B_frame:
+** Learned Hands :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+#+attr_latex: :width 0.8\textwidth
+[[file:figs/learned_hands.png]]
+
+** Learned Hands :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+#+attr_latex: :width 1.0\textwidth
+[[file:figs/trainingdata.png]]
+
+
+** Reddit Legal Advice                                              :B_frame:
    :PROPERTIES:
    :BEAMER_env: frame
    :END:
@@ -119,12 +138,6 @@
 #+end_src
 
 
-** Learned Hands :B_frame:
-   :PROPERTIES:
-   :BEAMER_env: frame
-   :END:
-#+attr_latex: :width 0.8\textwidth
-[[file:figs/learned_hands.png]]
 
    
 #+latex_header: \AtBeginSection[]{\begin{frame}<beamer>\frametitle{Topic}\tableofcontents[currentsection]\end{frame}}
@@ -137,10 +150,6 @@
    - Logistic regression with L1 regularization
    - Grid search over powers of 2
 
-** Training Data :B_frame:
-   :PROPERTIES:
-   :BEAMER_env: frame
-   :END:
 
 
 ** Recall Top 10 :B_frame:
@@ -152,7 +161,7 @@ file:figs/top10.png
    :PROPERTIES:
    :BEAMER_env: frame
    :END:
-file:figs/top10.png
+file:figs/recall_dist.png
 # ** Comparison :B_frame:
 #    :PROPERTIES:
 #    :BEAMER_env: frame
@@ -280,11 +289,17 @@ file:figs/freq_e.jpeg
   (https://lawhelpca.org/)
 - System to automate and improve the model
 
-
-
-
 ** Reference :B_frame:
    :PROPERTIES:
    :BEAMER_env: frame
    :END:
 - Keith, K., & O'Connor, B. (2018). Uncertainty-aware generative models for inferring document class prevalence. In Proceedings of EMNLP.
+
+
+** End :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+Thank you for listening!
+
+
