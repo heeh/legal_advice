@@ -103,6 +103,34 @@ file:figs/subclass.png
 #+attr_latex: :width 1.0\textwidth
 [[file:figs/trainingdata.png]]
 
+** Prior Likelihood :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+#+ATTR_LATEX: :options {0.4\textwidth}
+  | Class  | Likelihood |
+  +--------+------------+
+  | HO-06  | 0.0205     |
+  | IM-00  | 0.0183     |
+  | MO-00  | 0.2561     |
+  | TO-00  | 0.183      |
+  | TR-00  | 0.1296     |
+  | TR-01  | 0.012      |
+  | TR-05  | 0.0171     |
+  | WO-00  | 0.1944     |
+#+ATTR_LATEX: :options {0.4\textwidth}
+#+begin_minipage
+   | Class | Likelihood |
+   +-------+------------+
+   |BU-00  | 0.0585     |
+   |CO-00  | 0.0911     |
+   |CR-00  | 0.1799     |
+   |ED-00  | 0.0132     |
+   |ES-00  | 0.0401     |
+   |FA-00  | 0.1748     |
+   |HE-00  | 0.0642     |
+   |HO-00  | 0.258      |
+#+end_minipage			       
 
 ** Reddit Legal Advice                                              :B_frame:
    :PROPERTIES:
@@ -121,22 +149,17 @@ file:figs/subclass.png
    :BEAMER_env: frame
    :END:
 
-*** $github.com/heeh/subreddit\_downloader/sample.py$               :B_block:
-    :PROPERTIES:
-    :BEAMER_env: block
+#+BEGIN_SRC python
+import requests
 
-    :END:
-#+begin_src python :results output :exports code
-  import requests
-
-  # Retrieve 1000 submissions with specified fields
-  url = "https://api.pushshift.io/reddit/search/       \
-	 submission/?subreddit=legaladvice&            \
-	 fields=id,created_utc,title,selftext&         \
-	 size=1000&after=2020-01-01&before=2020-01-31"
-  subs = requests.get(url)
-#+end_src
-
+# Retrieve 1000 submissions with specified fields
+url = "https://api.pushshift.io/reddit/search/       \
+       submission/?subreddit=legaladvice&            \
+       fields=id,created_utc,title,selftext&         \
+       size=1000&after=2020-01-01&before=2020-01-31"
+subs = requests.get(url)
+#+END_SRC
+([[http://github.com/heeh/subreddit_downloader/sample.py]])
 
 
    
