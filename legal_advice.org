@@ -1,7 +1,9 @@
 #+latex_header: \mode<beamer>{\usetheme{default} \usefonttheme{serif}}
 #+latex_header: \definecolor{UMass}{RGB}{136, 28, 28} % UMass Maroon (primary)
 #+latex_header: \usecolortheme[named=UMass]{structure}
-
+#+latex_header: \usepackage{amsmath}
+#+latex_header: \DeclareMathOperator*{\argmax}{arg\,max}
+#+latex_header: \DeclareMathOperator*{\argmin}{arg\,min}
 #+TITLE:     Predicting Legal Needs
 #+AUTHOR:    Hee "Peter" Hwang
 #+EMAIL:     hhwang@cs.umass.edu
@@ -32,8 +34,6 @@
 
 
 #+latex_header: \AtBeginSection[]{\begin{frame}<beamer>\frametitle{Topic}\tableofcontents[currentsection]\end{frame}}
-
-
 * Motivation
 ** Opening Question                                                 :B_frame:
    :PROPERTIES:
@@ -49,33 +49,20 @@
    - Is it a legal issue?
    - What kind of legal issue is it?
    - How to deal with it?
-** National Subject Matter Index(NSMI v2) :B_frame:
-   :PROPERTIES:
-   :BEAMER_env: frame
-   :END:
-
-#+LaTeX:\includegraphics[width = \textwidth]{figs/nsmiv2.png}
-
-
-** National Subject Matter Index(NSMI v2) :B_frame:
-   :PROPERTIES:
-   :BEAMER_env: frame
-   :END:
-file:figs/subclass.png
-
 
 ** Annual Submissions(2010 - 2019)                                  :B_frame:
    :PROPERTIES:
    :BEAMER_env: frame
    :END:
 [[file:figs/annual_num_docs.png]]
-
 ** Monthly Submissions(01/2019 - 03/2020)                           :B_frame:
    :PROPERTIES:
    :BEAMER_env: frame
    :END:
 #+attr_latex: :width 0.8\textwidth
 [[file:figs/monthly_num_docs.png]]
+
+
 
 
 ** Questions II :B_frame:
@@ -89,54 +76,68 @@ file:figs/subclass.png
 
 #+latex_header: \AtBeginSection[]{\begin{frame}<beamer>\frametitle{Topic}\tableofcontents[currentsection]\end{frame}}
 * Data
-** Learned Hands :B_frame:
+
+** National Subject Matter Index(NSMI v2) :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+#+LaTeX:\includegraphics[width = \textwidth]{figs/nsmiv2.png}
+
+** National Subject Matter Index(NSMI v2) :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+file:figs/subclass.png
+
+** Training Data                                                    :B_frame:
    :PROPERTIES:
    :BEAMER_env: frame
    :END:
 #+attr_latex: :width 0.8\textwidth
 [[file:figs/learned_hands.png]]
 
-** Learned Hands :B_frame:
+** Training Data                                                    :B_frame:
    :PROPERTIES:
    :BEAMER_env: frame
    :END:
 #+attr_latex: :width 1.0\textwidth
 [[file:figs/trainingdata.png]]
 
-** Prior Likelihood :B_frame:
+** Prevalence                                                       :B_frame:
    :PROPERTIES:
    :BEAMER_env: frame
    :END:
-#+ATTR_LATEX: :options {0.4\textwidth}
-  | Class  | Likelihood |
-  +--------+------------+
-  | HO-06  | 0.0205     |
-  | IM-00  | 0.0183     |
-  | MO-00  | 0.2561     |
-  | TO-00  | 0.183      |
-  | TR-00  | 0.1296     |
-  | TR-01  | 0.012      |
-  | TR-05  | 0.0171     |
-  | WO-00  | 0.1944     |
-#+ATTR_LATEX: :options {0.4\textwidth}
-#+begin_minipage
-   | Class | Likelihood |
-   +-------+------------+
-   |BU-00  | 0.0585     |
-   |CO-00  | 0.0911     |
-   |CR-00  | 0.1799     |
-   |ED-00  | 0.0132     |
-   |ES-00  | 0.0401     |
-   |FA-00  | 0.1748     |
-   |HE-00  | 0.0642     |
-   |HO-00  | 0.258      |
-#+end_minipage			       
+   | Class | # pos | # docs | Prevalence |
+   |-------+-------+--------+------------|
+   | HO-06 |    34 |   1662 |     0.0205 |
+   | IM-00 |    36 |   1964 |     0.0183 |
+   | MO-00 |   366 |   1429 |     0.2561 |
+   | TO-00 |   230 |   1257 |     0.1830 |
+   | TR-00 |   260 |   2006 |     0.1296 |
+   | TR-01 |    22 |   1827 |     0.0120 |
+   | TR-05 |    31 |   1816 |     0.0171 |
+   | WO-00 |   387 |   1991 |     0.1944 |
 
-** Reddit Legal Advice                                              :B_frame:
+** Prevalence(cont.)                                                :B_frame:
    :PROPERTIES:
    :BEAMER_env: frame
    :END:
-   - [[http:reddit.com/r/legal_advice]]
+   | Class | # pos  | # docs  | Prevalence |
+   |-------+--------+---------+------------|
+   | BU-00 |     93 |    1590 |     0.0585 |
+   | CO-00 |    106 |    1164 |     0.0911 |
+   | CR-00 |    302 |    1679 |     0.1799 |
+   | ED-00 |     24 |    1813 |     0.0132 |
+   | ES-00 |     78 |    1944 |     0.0401 |
+   | FA-00 |    357 |    2042 |     0.1748 |
+   | HE-00 |    122 |    1900 |     0.0642 |
+   | HO-00 |    550 |    2132 |     0.2580 |
+
+** Test Data                                                        :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+   - Legal Advice Subreddit($/r/legal\_advice$)
    - First submission: April 20, 2010
    - 906,693 submissions(04/2010 - 03/2020)
    - 21,490 / month (01/2019 - 03/2020)
@@ -165,13 +166,29 @@ subs = requests.get(url)
    
 #+latex_header: \AtBeginSection[]{\begin{frame}<beamer>\frametitle{Topic}\tableofcontents[currentsection]\end{frame}}
 * Classifier
-** Model :B_frame:
+** TF-IDF L1                                                        :B_frame:
    :PROPERTIES:
    :BEAMER_env: frame
    :END:
-   - Input representation: TF-IDF 
-   - Logistic regression with L1 regularization
-   - Grid search over powers of 2
+- Input representation: TF-IDF 
+  Dimension: 90k - 160k
+- 10-fold validation
+- Class weight: balanced
+- Logistic regression with cross entropy loss and L1 regularization
+$$score(\lambda) = loss(\mathbf{x}^{de},\mathbf{y}^{de}, \mathbf{\hat{\theta}}): \mathbf{\hat{\theta}} = \argmax_{\mathbf{\theta}} \log P_{\mathbf{\theta}}(\mathbf{y}^{tr}|\mathbf{x}^{tr}) - \lambda \vert \mathbf{\theta} \vert$$
+- Grid search over powers of 2(2^{-12}, 2^{-11}, ... , 2^{-1})
+** Comparison :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+   | Classifier   | Acc. | Prec. | Rec. |   F1 | log_loss |  brier |
+   |--------------+------+-------+------+------+----------+--------|
+   | TF-IDF L1    | 0.97 |  0.52 | 0.41 | 0.46 |   0.0829 | 0.0186 |
+   | TF-IDF L2    | 0.97 |  0.55 | 0.22 | 0.28 |   0.0759 | 0.0194 |
+   | GloVe(50) L1 | 0.93 |  0.25 | 0.54 | 0.32 |   0.2049 | 0.0521 |
+   | GloVe(50) L2 | 0.92 |  0.24 | 0.56 | 0.31 |   0.2081 | 0.0571 |
+   | GloVe(300)L1 | 0.96 |  0.37 | 0.52 | 0.42 |   0.1086 | 0.0273 |
+   | GloVe(300)L2 | 0.97 |  0.40 | 0.51 | 0.44 |   0.0968 | 0.0242 |
 
 
 
@@ -185,20 +202,6 @@ file:figs/top10.png
    :BEAMER_env: frame
    :END:
 file:figs/recall_dist.png
-# ** Comparison :B_frame:
-#    :PROPERTIES:
-#    :BEAMER_env: frame
-#    :END:
-#    +--------------+------+------+------+------+--------+--------+
-#    | Classifier   | Acc. | Prec.| Rec. |  F1  |log_loss| brier  |
-#    +--------------+------+------+------+------+--------+--------+
-#    | TF-IDF L1    | 0.97 | 0.52 | 0.41 | 0.46 | 0.0829 | 0.0186 |
-#    | TF-IDF L2    | 0.97 | 0.55 | 0.22 | 0.28 | 0.0759 | 0.0194 |
-#    | GloVe(50) L1 | 0.93 | 0.25 | 0.54 | 0.32 | 0.2049 | 0.0521 |
-#    | GloVe(50) L2 | 0.92 | 0.24 | 0.56 | 0.31 | 0.2081 | 0.0571 |
-#    | GloVe(300)L1 | 0.96 | 0.37 | 0.52 | 0.42 | 0.1086 | 0.0273 |
-#    | GloVe(300)L2 | 0.97 | 0.40 | 0.51 | 0.44 | 0.0968 | 0.0242 |
-#    +--------------+------+------+------+------+--------+--------+
 ** Input :B_frame:
    :PROPERTIES:
    :BEAMER_env: frame
@@ -208,20 +211,19 @@ file:figs/recall_dist.png
    :PROPERTIES:
    :BEAMER_env: frame
    :END:
-   +--------------+--------------+
-   | Class        | Prediction(%)| 
-   +--------------+--------------+
-   |TR-00-00-00-00|0.9561        |
-   |CO-00-00-00-00|0.6452        |
-   |MO-00-00-00-00|0.3711        |
-   |BU-00-00-00-00|0.0486        |
-   |TO-00-00-00-00|0.0211        |
-   |FA-00-00-00-00|0.0131        |
-   |CR-00-00-00-00|0.0129        |
-   |TR-01-00-00-00|0.0087        |
-   |HO-06-00-00-00|0.0061        |
-   |ED-00-00-00-00|0.0043        |
-   +--------------+--------------+
+   | Class          | Prediction    |
+   |----------------+---------------|
+   | TR-00-00-00-00 |        0.9561 |
+   | CO-00-00-00-00 |        0.6452 |
+   | MO-00-00-00-00 |        0.3711 |
+   | BU-00-00-00-00 |        0.0486 |
+   | TO-00-00-00-00 |        0.0211 |
+   | FA-00-00-00-00 |        0.0131 |
+   | CR-00-00-00-00 |        0.0129 |
+   | TR-01-00-00-00 |        0.0087 |
+   | HO-06-00-00-00 |        0.0061 |
+   | ED-00-00-00-00 |        0.0043 |
+
 
 #+header: \AtBeginSection[]{\begin{frame}<beamer>\frametitle{Topic}\tableofcontents[currentsection]\end{frame}}
 * Prevalence Estimation
@@ -263,66 +265,71 @@ file:figs/freq_e.jpeg
 - HO-06: Renting or leasing a home
 - HE-00: Health
 
-
-** Monthly Prevalence                                               :B_frame:
+** Sample - Work and Employment Law                                 :B_frame:
    :PROPERTIES:
    :BEAMER_env: frame
    :END:
-[[file:figs/monthly_2.png]]
-- TO-00: Accidents and Torts 
-- CR-00: Crime and Prisons
-- FA-00: Family
-- CO-00: Courts and Lawyers
+   |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+   | 2020-W11 (03/09 - 03/16)                                                                                                                                                                                 |
+   |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+   | 1. TX - property manager showing home while occupying space amid covit-19 pandemic and don't feel safe whatsoever. Do I have a right of refusal or reject visits based on those grounds without penalty?    |
+   | 2. Can employees sue employer for not allowing them to work from home during the coronavirus pandemic? (Maryland)                                                                                        |
+   | 3. [OH] My wife is being told she has to work in an office building without running water, in the middle of a pandemic and state emergency. How can this be legal?                                       |
+   | 4. OSHA question regarding pandemic                                                                                                                                                                      |
+   | 5. [Ohio, US] Employer allowing staff with children to telecommute, requiring staff without children to be present in office during pandemic concerns.                                                   |
+   |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+   | 2020-W12 (03/16 - 03/23)                                                                                                                                                                                 |
+   |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+   | 1. Started a new job during COVID-19 pandemic and have questions about legal rights                                                                                                                      |
+   | 2. Self-employed retailer in Vermont, USA temporarily closes brick and mortar location during virus pandemic, can i collect unemployment and still sell merchandise online?                              |
+   | 3. My SO has chronic illness, can he be fired for requesting to work from home during the COVID-19 pandemic?                                                                                             |
+   | 4. Can I temporarily lay off my employees because of the pandemic? (Ontario)                                                                                                                             |
+   | 5. [NJ] Employer is allowing the option to work from home among this COVID-19 pandemic... but will take 40% cut out of our pay if we so choose to work from home.                                        |
+   |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 
-** Weekly Prevalence :B_frame:
+** Sample - Work and Employment Law                                 :B_frame:
    :PROPERTIES:
    :BEAMER_env: frame
    :END:
-[[file:figs/weekly_2.png]]
-- TO-00: Accidents and Torts 
-- CR-00: Crime and Prisons
-- FA-00: Family
-- CO-00: Courts and Lawyers
+   |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+   | 2020-W13 (03/23 - 03/30)                                                                                                                                                                   |
+   |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+   | 1. Employed as nanny, time off for pandemic, family ignoring me                                                                                                                            |
+   | 2. I am an RBT that was told to work in clients home during a national pandemic. I am currently pregnant (high risk), and don't feel safe entering client homes. Risk of being fired? OHIO |
+   | 3. Evicted due to being laid off in service industry during pandemic                                                                                                                       |
+   | 4. Prior to the pandemic, my employer denied my request to work from home. I have a meeting with an employment attorney. What should I do to get ready?                                    |
+   | 5. Company is reducing the pay of all it's employees by 10% due to the pandemic.                                                                                                           |
+   |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+   | 2020-W14 (03-30 - 04-06)                                                                                                                                                                   |
+   |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+   | 1. Can I be fired for taking a leave of absence during this pandemic?                                                                                                                      |
+   | 2. Filed for unemployment on the 24th in MD due to the pandemic. Received a letter today.                                                                                                  |
+   | 3. Company changing official pandemic response after a confirmed case at facility                                                                                                          |
+   | 4. Put in my resignation letter (3 month notice) a couple months ago before pandemic hit, now I want my job back, or figure out a way to qualify for unemployment. Options?                |
+   | 5. Access Denied during a pandemic! WTF Really?!                                                                                                                                           |
+   |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 
-** Daily Prevalence                                                 :B_frame:
-   :PROPERTIES:
-   :BEAMER_env: frame
-   :END:
-[[file:figs/daily_2.png]]
-- TO-00: Accidents and Torts 
-- CR-00: Crime and Prisons
-- FA-00: Family
-- CO-00: Courts and Lawyers
 
 ** Summary :B_frame:
    :PROPERTIES:
    :BEAMER_env: frame
    :END:
-- Provide people better insight regarding their issues by classification
-- Shows seasonality
-- How natural disaster affects legal needs
+   - Provides people better understanding of their issues
+   - Helps understand seasonal legal needs
+   - Learn how a natural disaster affects legal needs
 
 ** Todo :B_frame:
    :PROPERTIES:
    :BEAMER_env: frame
    :END:
-- More labeled data(Currently 16 classes available)
-- Dataset from other communities
-- California statewide legal help portal
-  (https://lawhelpca.org/)
-- System to automate and improve the model
+   - Need More labeled data(Currently 16 classes available)
+   - Perform the protocol with dataset from other communities (California statewide legal help portal)\\
+   - Build an automated system to improve the model
 
 ** Reference :B_frame:
    :PROPERTIES:
    :BEAMER_env: frame
    :END:
-- Keith, K., & O'Connor, B. (2018). Uncertainty-aware generative models for inferring document class prevalence. In Proceedings of EMNLP.
-
-
-** End :B_frame:
-   :PROPERTIES:
-   :BEAMER_env: frame
-   :END:
-Thank you for listening!
+   - Keith, K., & O'Connor, B. (2018). Uncertainty-aware generative models for inferring document class prevalence. In Proceedings of EMNLP.
 
 
